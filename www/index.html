@@ -1,16 +1,162 @@
 <!doctype html>
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" media="screen" href="/style.css">
+  <meta charset='utf-8'>
+  <link href="/bootstrap.css" rel="stylesheet">
+  <link href="/style.css" rel="stylesheet">
+  <script src="/jquery.js"></script>
+  <script src="/bootstrap.js"></script>
+  <script>
+  	$(document).ready(function(){
+  		// prime ssid fields
+  		$('input#ssid1').val("{{ssid1}}")
+  		$('input#ssid2').val("{{ssid2}}")
+  		$('input#ssid3').val("{{ssid3}}")
+  		$('input#ssid4').val("{{ssid4}}")
+  		// validation functions
+  		function validate(val) {
+		  	if(val.match(/^[0-9a-zA-Z ]+$/) && val.length < 32){
+		  		return true;
+		  	} else {
+		  		return false;
+		  	}	  			
+  		}
+  		function validate_all() {
+		  	return validate($('input#ssid1').val()) 
+		  	    && validate($('input#ssid2').val())
+		  	    && validate($('input#ssid3').val())
+		  	    && validate($('input#ssid4').val());
+  		}
+  		// input validation
+		  $('form#ssids div div input').keyup(function(event) {
+		  	// + String.fromCharCode(event.which)
+		  	var val = $(this).val();
+		  	// set status input field
+		  	if (validate(val)) {
+		  		$(this).parents('div.control-group').removeClass('error')
+		  		$(this).parents('div.control-group').addClass('success')	  		
+		  	} else {
+		  		$(this).parents('div.control-group').removeClass('success')
+		  		$(this).parents('div.control-group').addClass('error')
+		  	}
+		  	// set status tag button
+		  	if (validate_all()) {
+		  		$('#tag-btn').removeClass('disabled')
+		  	} else {
+		  	  $('#tag-btn').addClass('disabled')
+		  	}			  	
+		  });
+		  // submit logic
+		  $('#tag-btn').click(function(event){
+		  	if (!$('#tag-btn').hasClass('disabled')) {
+			  	var val1 = $('input#ssid1').val();
+			  	var val2 = $('input#ssid2').val();
+			  	var val3 = $('input#ssid3').val();
+			  	var val4 = $('input#ssid4').val();
+			  	var params = {'ssid1':val1, 'ssid2':val2, 'ssid3':val3, 'ssid4':val4};
+					$.get("/ready", params, function(data) {
+						// server is ready, send actual request
+						if (data == "ready") {
+							$.get("/tag", params, function(data) {
+								if (data != "" && data != "0") {
+									$('form#ssids div.control-group').removeClass('error');
+									$('form#ssids div.control-group').addClass('success');
+									$('#tag-btn').val("Tagged!");
+									$('#tag-btn').addClass('btn-success');
+									$('#tag-btn').addClass('disabled');
+									// $('#myModal').modal('hide');
+							    var delayedhide = setTimeout(function() {
+							      $('div#myModal').hide();
+								    var delayedhide = setTimeout(function() {
+								      $('div#success').show();
+								    }, 500);				      
+							    }, 1000);
+								} else {
+									$('form#ssids div.control-group').removeClass('success');
+									$('form#ssids div.control-group').addClass('error');
+								}
+							}).error(function() {
+								$('form#ssids div.control-group').removeClass('success');
+								$('form#ssids div.control-group').addClass('error');
+						  }); 
+						} else {
+							// not ready, server is probably just restarting
+							$('form#ssids div.control-group').removeClass('success');
+							$('form#ssids div.control-group').addClass('error');
+							$('#tag-btn').addClass('btn-error');
+							$('#tag-btn').addClass('disabled');
+					    var delayedrestore = setTimeout(function() {
+								$('form#ssids div.control-group').removeClass('success');
+								$('form#ssids div.control-group').removeClass('error');
+								$('#tag-btn').removeClass('btn-error');	
+								$('#tag-btn').removeClass('disabled');	      
+					    }, 1000);	
+						}
+					}).error(function() {
+						// not ready, server is probably just restarting
+						$('form#ssids div.control-group').removeClass('success');
+						$('form#ssids div.control-group').addClass('error');
+						$('#tag-btn').addClass('btn-error');
+						$('#tag-btn').addClass('disabled');
+				    var delayedrestore = setTimeout(function() {
+							$('form#ssids div.control-group').removeClass('success');
+							$('form#ssids div.control-group').removeClass('error');
+							$('#tag-btn').removeClass('btn-error');	
+							$('#tag-btn').removeClass('disabled');	      
+				    }, 1000);						
+				  });
+				}
+		  });
+		});   
+  </script>
 </head>
-<body class="lightblue">
-<form action="/tag" method="get">
-<input name="ssid1" type="text"> {{ssid1}}<br>
-<input name="ssid2" type="text"> {{ssid2}}<br>
-<input name="ssid3" type="text"> {{ssid3}}<br>
-<input name="ssid4" type="text"> {{ssid4}}<br>
-<input type="submit">
-</form>
+<body>
+
+
+<div class="modal" id="myModal" tabindex="-1" style="width:300px">
+<div class="modal-header">
+<h3 id="myModalLabel">WifiTagger</h3>
+</div>
+<div class="modal-body">
+  <form id="ssids" action="/tag" method="get">
+		<div class="control-group">
+			<div class="controls">
+				<input id="ssid1" name="ssid4" type="text" width="31"><br>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<input id="ssid2" name="ssid4" type="text" width="31"><br>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<input id="ssid3" name="ssid4" type="text" width="31"><br>
+			</div>
+		</div>		
+		<div class="control-group">
+			<div class="controls">
+				<input id="ssid4" name="ssid4" type="text" width="31"><br>
+			</div>
+		</div>
+  </form>
+	<p class="text-info">Press Tag! to take your text public. 
+		Your network connection will then break and you can read the text with any wifi conf tool.</p>  
+</div>
+<div class="modal-footer">
+<button id="tag-btn" class="btn btn-large btn-block btn-primary disabled">Tag!</button>
+</div>
+</div>
+
+
+<div class="modal" id="success" tabindex="-1" style="width:200px; display:none">
+<div class="modal-body">
+<h3 id="myModalLabel">Tagged!</h3>
+	<p class="text-info">Your text will show up in in the wireless network list of devices in the area.</p>  
+</div>
+</div>
+
+
 </body>
 </html>
 

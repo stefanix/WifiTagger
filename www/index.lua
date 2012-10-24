@@ -141,25 +141,32 @@ function handle_request(env)
   end
   if  basename == "style.css" then
     serve_file("/www/style.css", "text/css")
-  elseif  basename == "tagged.html" then
-    serve_file("/www/tagged.html", "text/html")
-  elseif  basename == "failed.html" then
-    serve_file("/www/failed.html", "text/html")
+  elseif  basename == "bootstrap.css" then
+    serve_file("/www/bootstrap.css", "text/css")
+  elseif  basename == "jquery.js" then
+    serve_file("/www/jquery.js", "text/javascript")
+  elseif  basename == "bootstrap.js" then
+    serve_file("/www/bootstrap.js", "text/javascript")
+  elseif  basename == "background.gif" then
+    serve_file("/www/background.gif", "image/gif")    
   elseif  basename == "list" then
     print_wifis()
+  elseif basename == "ready" then
+    send_header("text/text")
+    uhttpd.send("ready")
   elseif basename == "tag" then
     qs = protocol.urldecode_params(env.QUERY_STRING or "")
     if qs['ssid1'] or qs['ssid2'] or qs['ssid3'] or qs['ssid4'] then
       ret = create_wifis(qs)
       if ret then  -- we have actually set some valid new wifis
-        -- save_wifis_permanently()  -- writes to /etc/config/wireless
-        redirect("/tagged.html")
+        uhttpd.send("1")
         apply_wifis()
       else
-        redirect("/failed.html")
+        
       end
     else  -- no new SSIDs to set
-      redirect("index.html")
+      uhttpd.send("0")
+      -- redirect("index.html")
     end    
   else  -- catch all
     serve_template("/www/index.html", get_ssids())
