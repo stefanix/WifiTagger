@@ -97,7 +97,7 @@ function create_wifis(ssids)
   wifis = {}
   for i = 1,4,1 do
     ssid_cur = ssids['ssid'..i]
-    if ssid_cur and ssid_cur ~= '' then
+    if ssid_cur and ssid_cur ~= '' and string.len(ssid_cur) < 32 then
       -- table.insert(wifis, string.sub(filter_ssid(ssid_cur),1,31))
       table.insert(wifis, ssid_cur)
       any_valid = true
@@ -130,11 +130,6 @@ end
 function serve_template(template, params)
   send_header("text/html")
   uhttpd.send(hige.render(fs.readfile(template), params))
-end
-
-function sleep(n)  -- seconds
-  local t0 = os.clock()
-  while os.clock() - t0 <= n do end
 end
 
 

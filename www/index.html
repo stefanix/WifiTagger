@@ -8,14 +8,14 @@
   <script src="/bootstrap.js"></script>
   <script>
   	$(document).ready(function(){
-  		// prime ssid fields
-  		$('input#ssid1').val("{{ssid1}}")
-  		$('input#ssid2').val("{{ssid2}}")
-  		$('input#ssid3').val("{{ssid3}}")
-  		$('input#ssid4').val("{{ssid4}}")
+  		// prime ssid fields, triple-hinge is unescaped
+  		$('input#ssid1').val("{{{ssid1}}}")
+  		$('input#ssid2').val("{{{ssid2}}}")
+  		$('input#ssid3').val("{{{ssid3}}}")
+  		$('input#ssid4').val("{{{ssid4}}}")
   		// validation functions
   		function validate(val) {
-		  	if(val.match(/^[0-9a-zA-Z ]+$/) && val.length < 32){
+		  	if(val.match(/^[0-9a-zA-Z ~`!@#$%\^&*()_\-+={\[}\]|:;<,>.?\/]+$/) && val.length < 32){
 		  		return true;
 		  	} else {
 		  		return false;
@@ -108,7 +108,7 @@
 <body>
 
 
-<div class="modal" id="myModal" tabindex="-1" style="width:300px">
+<div class="modal" id="myModal" tabindex="-1" style="width:260px">
 <div class="modal-header">
 <h3 id="myModalLabel">WifiTagger</h3>
 </div>
@@ -136,7 +136,8 @@
 		</div>
   </form>
 	<p class="text-info">Press Tag! to take your text public. 
-		Your network connection will then break and you can read the text with any wifi conf tool.</p>  
+		This network connection will then break and you can read the text in
+		any device's wireless network list.</p>  
 </div>
 <div class="modal-footer">
 <button id="tag-btn" class="btn btn-large btn-block btn-primary disabled">Tag!</button>
