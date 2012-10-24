@@ -47,6 +47,32 @@
 		  	}			  	
 		  });
 		  // submit logic
+		  function onTagSuccess() {
+				$('form#ssids div.control-group').removeClass('error');
+				$('form#ssids div.control-group').addClass('success');
+				$('#tag-btn').val("Tagged!");
+				$('#tag-btn').addClass('btn-success');
+				$('#tag-btn').addClass('disabled');
+				// $('#myModal').modal('hide');
+		    var delayedhide = setTimeout(function() {
+		      $('div#myModal').hide();
+			    var delayedhide = setTimeout(function() {
+			      $('div#success').show();
+			    }, 500);				      
+		    }, 1000);
+		  }
+		  function onTagFailure() {
+				$('form#ssids div.control-group').removeClass('success');
+				$('form#ssids div.control-group').addClass('error');
+				$('#tag-btn').addClass('btn-danger');
+				$('#tag-btn').addClass('disabled');
+		    var delayedrestore = setTimeout(function() {
+					$('form#ssids div.control-group').removeClass('success');
+					$('form#ssids div.control-group').removeClass('error');
+					$('#tag-btn').removeClass('btn-danger');	
+					$('#tag-btn').removeClass('disabled');	      
+		    }, 1000);	
+		  }
 		  $('#tag-btn').click(function(event){
 		  	if (!$('#tag-btn').hasClass('disabled')) {
 			  	var val1 = $('input#ssid1').val();
@@ -54,56 +80,25 @@
 			  	var val3 = $('input#ssid3').val();
 			  	var val4 = $('input#ssid4').val();
 			  	var params = {'ssid1':val1, 'ssid2':val2, 'ssid3':val3, 'ssid4':val4};
-					$.get("/ready", params, function(data) {
+			  	// first test if server is ready then send actual request
+			  	// this is necessary because server will restart network
+			  	// right after sending tags and cannot properly respond
+					$.getJSON("/ready", {}, function(data) {
 						// server is ready, send actual request
-						if (data == "ready") {
+						// alert(JSON.stringify(data));
+						if (data.ret == "ready_steady") {
 							$.get("/tag", params, function(data) {
-								if (data != "" && data != "0") {
-									$('form#ssids div.control-group').removeClass('error');
-									$('form#ssids div.control-group').addClass('success');
-									$('#tag-btn').val("Tagged!");
-									$('#tag-btn').addClass('btn-success');
-									$('#tag-btn').addClass('disabled');
-									// $('#myModal').modal('hide');
-							    var delayedhide = setTimeout(function() {
-							      $('div#myModal').hide();
-								    var delayedhide = setTimeout(function() {
-								      $('div#success').show();
-								    }, 500);				      
-							    }, 1000);
-								} else {
-									$('form#ssids div.control-group').removeClass('success');
-									$('form#ssids div.control-group').addClass('error');
-								}
-							}).error(function() {
-								$('form#ssids div.control-group').removeClass('success');
-								$('form#ssids div.control-group').addClass('error');
-						  }); 
+								// don't care about replies
+							});
+							// assumed to have worked as we ready-checked
+							onTagSuccess();
 						} else {
 							// not ready, server is probably just restarting
-							$('form#ssids div.control-group').removeClass('success');
-							$('form#ssids div.control-group').addClass('error');
-							$('#tag-btn').addClass('btn-error');
-							$('#tag-btn').addClass('disabled');
-					    var delayedrestore = setTimeout(function() {
-								$('form#ssids div.control-group').removeClass('success');
-								$('form#ssids div.control-group').removeClass('error');
-								$('#tag-btn').removeClass('btn-error');	
-								$('#tag-btn').removeClass('disabled');	      
-					    }, 1000);	
+							onTagFailure();
 						}
 					}).error(function() {
 						// not ready, server is probably just restarting
-						$('form#ssids div.control-group').removeClass('success');
-						$('form#ssids div.control-group').addClass('error');
-						$('#tag-btn').addClass('btn-error');
-						$('#tag-btn').addClass('disabled');
-				    var delayedrestore = setTimeout(function() {
-							$('form#ssids div.control-group').removeClass('success');
-							$('form#ssids div.control-group').removeClass('error');
-							$('#tag-btn').removeClass('btn-error');	
-							$('#tag-btn').removeClass('disabled');	      
-				    }, 1000);						
+						onTagFailure();					
 				  });
 				}
 		  });

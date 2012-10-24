@@ -123,7 +123,7 @@ end
 
 function apply_wifis()
   uci:apply({'wireless'})  -- actually restart demons
-  -- luci.sys.call("/etc/init.d/telephony restart")
+  -- luci.sys.call("/etc/init.d/network restart")
 end
 
 
@@ -131,6 +131,12 @@ function serve_template(template, params)
   send_header("text/html")
   uhttpd.send(hige.render(fs.readfile(template), params))
 end
+
+function sleep(n)  -- seconds
+  local t0 = os.clock()
+  while os.clock() - t0 <= n do end
+end
+
 
 
 function handle_request(env)
@@ -152,19 +158,27 @@ function handle_request(env)
   elseif  basename == "list" then
     print_wifis()
   elseif basename == "ready" then
-    send_header("text/text")
-    uhttpd.send("ready")
+    -- send_header("text/html")
+    -- uhttpd.send('ready_steady')
+    send_header("application/json")
+    uhttpd.send('{"ret":"ready_steady"}')
+    uhttpd.send('\n\n')
+    -- ret = {"ret"="ready_steady"}
+    -- uhttpd.send(http.write_json(ret))
   elseif basename == "tag" then
     qs = protocol.urldecode_params(env.QUERY_STRING or "")
     if qs['ssid1'] or qs['ssid2'] or qs['ssid3'] or qs['ssid4'] then
       ret = create_wifis(qs)
       if ret then  -- we have actually set some valid new wifis
-        uhttpd.send("1")
         apply_wifis()
-      else
-        
       end
     else  -- no new SSIDs to set
+
+      for k,v in pairs(uhttpd) do
+          -- print("key", k, "value", v)
+          uhttpd.send(k.."\n")
+      end
+
       uhttpd.send("0")
       -- redirect("index.html")
     end    
