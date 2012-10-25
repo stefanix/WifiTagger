@@ -1,29 +1,15 @@
+#!/bin/sh
 
+# to be executed on laptop
+# router is expected to have already the firmware flashed
+# and ssh setup
 
-# install packages for mod-lua
-scp -r packages/*.ipk root@192.168.1.1:/root/
-ssh root@192.168.1.1 'opkg install /root/*.ipk"'
-ssh root@192.168.1.1 'rm /root/*.ipk"'
+# copy files
+scp -r -o UserKnownHostsFile=/dev/null packages/*.ipk root@192.168.1.1:/root/
+scp -r -o UserKnownHostsFile=/dev/null www/* root@192.168.1.1:/www/
+scp -r -o UserKnownHostsFile=/dev/null setup_remote.sh root@192.168.1.1:/root/
 
-# copy wifiTagger web app to router
-scp -r www/* root@192.168.1.1:/www/
+# execute setup_remote.sh on router
+ssh -o UserKnownHostsFile=/dev/null root@192.168.1.1 'chmod +x /root/setup_remote.sh; /root/setup_remote.sh'
 
-# setup uhttpd to serve index.lua
-# this is a catch-all, all requests go through it
-# The config file is "/etc/config/uhttpd"
-ssh root@192.168.1.1 'uci set uhttpd.main.lua_prefix=/'
-ssh root@192.168.1.1 'uci set uhttpd.main.lua_handler=/www/index.lua'
-ssh root@192.168.1.1 'uci commit uhttpd'
-ssh root@192.168.1.1 '/etc/init.d/uhttpd restart'
-
-# make router a captive portal by resolving all domains
-# to its own IP address (restart of dnsmasq required)
-ssh root@192.168.1.1 'echo "address=/#/192.168.1.1" >> /etc/dnsmasq.conf'
-ssh root@192.168.1.1 '/etc/init.d/dnsmasq restart'
-
-# enable wifi radio, set default SSID
-ssh root@192.168.1.1 'uci set wireless.@wifi-iface[0].ssid="WifiTagger"'
-ssh root@192.168.1.1 'uci set wireless.@wifi-device[0].disabled=0'
-ssh root@192.168.1.1 'uci commit wireless'
-ssh root@192.168.1.1 'uci apply wireless'
 

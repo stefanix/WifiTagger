@@ -1,50 +1,60 @@
 
-Resources
-==========
+
+WifiTagger is a access point mod for tagging peoples' wireless network lists. It's a custom firmware (based on OpenWRT) that sets up the access point to broadcast four SSIDs. Each one is a 31 character text string that can be edited through a web interface. When connecting to any of the SSIDs the access point sets up a captive portal to reroute any web page requests to the web interface. On it the four text string can be entered and sent to the spectrum.
+
+Setup Process
+=============
+- buy a TP-Link TL-WR741ND WiFi Router
+- flash firmware
+- setup ssh and login password (sexylama)
+- run setup.sh
+  - chmod +x setup.sh
+  - ./setup.sh
+- restart access point
+- connect to "Free Public WifiTagger"
+- open any url -> web interface should open
+
+
+
+Flash Firmware
+---------------
+- plugin router to ethernet (not wan port)
+- open web interface at http://192.168.0.1/ or http://192.168.1.1/
+  - user: admin
+  - password: admin
+- restore factory settings if anythings was changed
+- run system upgrade uploading the firmware with the "factory" suffix
+  - openwrt-ar71xx-generic-tl-wr741nd-v4-squashfs-factory.bin
+- do not interrupt upload
+
+Setup SSH and Login Password
+-----------------------------
+- after restart you can now telnet to router "telnet 192.168.1.1" and
+- set a password with "passwd"
+- then telnet gets disabled and ssh login works with "ssh root@192.168.1.1"
+- also "ssh -o UserKnownHostsFile=/dev/null root@192.168.1.1" if you have key problems
+
+Run setup.sh
+-------------
+- this will copy a bunch of files to the router
+- amoung them setup_remote.sh
+- which it will then also execute
+
+Troubleshooting
+----------------
+- if something doesn't work ssh to router and
+- run setup_remote.sh manually
+- check output for errors
+
+
+Need to Know More
+==================
 - guide
   - http://wiki.openwrt.org/toh/tp-link/tl-wr741nd
 - firmware
   - http://downloads.openwrt.org/attitude_adjustment/12.09-beta2/ar71xx/generic/
 - packages
   - http://downloads.openwrt.org/attitude_adjustment/12.09-beta2/ar71xx/generic/packages/
-
-
-Setup Process
-=============
-- buy a TP-Link TL-WR741ND WiFi Router
-- flash firmware
-- setup ssh and login password
-- run setup.sh
-
-
-
-Flash Firmware
-===============
-- plugin router to ethernet (not wan port)
-- open web interface at http://192.168.0.1/ or http://192.168.1.1/
-- restore factory settings if anythings was changed
-- run system upgrade uploading with "factory" suffix
-  - openwrt-ar71xx-generic-tl-wr741nd-v4-squashfs-factory.bin
-- done, you can now telnet to "telnet 192.168.1.1" and
-- set a password with "passwd"
-- then telnet gets disabled and ssh login works with "ssh root@192.168.1.1"
-- also "ssh -o UserKnownHostsFile=/dev/null root@192.168.1.1"
-- web interface is at http://192.168.1.1/
-
-
-Shell
-======
-- login without host key verification
-  - ssh -o UserKnownHostsFile=/dev/null root@192.168.1.1
-
-
-
-Upgrade Firmware
-================
-- copy firmware with "sysupgrade" suffix to /tmp on router
-- rename to tplink.bin
-- run "mtd -r write /tmp/tplink.bin firmware"
-
 
 shell
 =======
@@ -59,11 +69,18 @@ shell
 - uci ... general configuration see: http://wiki.openwrt.org/doc/uci
 - enable wifi
   - uci set wireless.@wifi-device[0].disabled=0
+- login without host key verification
+  - ssh -o UserKnownHostsFile=/dev/null root@192.168.1.1
+
+Upgrade Firmware
+----------------
+- copy firmware with "sysupgrade" suffix to /tmp on router
+- rename to tplink.bin
+- run "mtd -r write /tmp/tplink.bin firmware"
 
 
-
-Install Lua Webserver stuff
-===========================
+Install Lua Webserver stuff (latest firmware includes this)
+------------------------------
 - liblua
 - lua
 - uhttpd - http://wiki.openwrt.org/doc/uci/uhttpd
@@ -105,7 +122,7 @@ end
 
 
 wireless stuff
-==============
+---------------
 - config file
   - /etc/config/wireless
 - restart network
@@ -116,7 +133,7 @@ wireless stuff
   - uci commit wireless
 
 More package info
-==================
+-------------------
 
 - luci-lib-core
 	/usr/lib/lua/luci/store.lua
@@ -136,15 +153,15 @@ More package info
 
 
 CAPTIVE PORTAL
-==============
+----------------
 Use dnsmsqr to wildcard all domains to the routers IP.
 In "/etc/dnsmasq.conf" add "address=/#/192.168.1.1" and restart dnsmasq.
 The "#" could also be a "com" to reroute all .com domains.
 
 
 
-HTTP HEADER
-============
+Typical HTTP HEADER
+-----------------------
 DOCUMENT_ROOT='/www'
 GATEWAY_INTERFACE='CGI/1.1'
 HTTP_ACCEPT='text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'

@@ -22,29 +22,32 @@
 		  	}	  			
   		}
   		function validate_all() {
-		  	return validate($('input#ssid1').val()) 
-		  	    && validate($('input#ssid2').val())
-		  	    && validate($('input#ssid3').val())
-		  	    && validate($('input#ssid4').val());
+		  	all_validated = true;
+		  	// field states
+		  	for (var i = 1; i <= 4; i++) {
+		  		var input_sel = 'input#ssid' + i
+			 		if (validate($(input_sel).val())) {
+			  		$(input_sel).parents('div.control-group').removeClass('error');
+			  		$(input_sel).parents('div.control-group').addClass('success');		  		
+			  	} else {
+			  		$(input_sel).parents('div.control-group').removeClass('success');
+			  		$(input_sel).parents('div.control-group').addClass('error');
+			  		all_validated = false;  		
+			  	}
+			  }
+			  // button state
+		  	if (all_validated) {
+		  		$('#tag-btn').removeClass('disabled')
+		  	} else {
+		  		$('#tag-btn').addClass('disabled')
+		  	}
   		}
+  		// call validate all on load
+  		validate_all();
   		// input validation
 		  $('form#ssids div div input').keyup(function(event) {
 		  	// + String.fromCharCode(event.which)
-		  	var val = $(this).val();
-		  	// set status input field
-		  	if (validate(val)) {
-		  		$(this).parents('div.control-group').removeClass('error')
-		  		$(this).parents('div.control-group').addClass('success')	  		
-		  	} else {
-		  		$(this).parents('div.control-group').removeClass('success')
-		  		$(this).parents('div.control-group').addClass('error')
-		  	}
-		  	// set status tag button
-		  	if (validate_all()) {
-		  		$('#tag-btn').removeClass('disabled')
-		  	} else {
-		  	  $('#tag-btn').addClass('disabled')
-		  	}			  	
+		  	validate_all();
 		  });
 		  // submit logic
 		  function onTagSuccess() {
@@ -108,36 +111,34 @@
 <body>
 
 
-<div class="modal" id="myModal" tabindex="-1" style="width:260px">
+<div class="modal" id="myModal" tabindex="-1">
 <div class="modal-header">
-<h3 id="myModalLabel">WifiTagger</h3>
+<h3 id="myModalLabel">WIFI TAGGER</h3>
 </div>
 <div class="modal-body">
   <form id="ssids" action="/tag" method="get">
 		<div class="control-group">
 			<div class="controls">
-				<input id="ssid1" name="ssid4" type="text" width="31"><br>
+				<input id="ssid1" name="ssid4" type="text"><br>
 			</div>
 		</div>
 		<div class="control-group">
 			<div class="controls">
-				<input id="ssid2" name="ssid4" type="text" width="31"><br>
+				<input id="ssid2" name="ssid4" type="text"><br>
 			</div>
 		</div>
 		<div class="control-group">
 			<div class="controls">
-				<input id="ssid3" name="ssid4" type="text" width="31"><br>
+				<input id="ssid3" name="ssid4" type="text"><br>
 			</div>
 		</div>		
 		<div class="control-group">
 			<div class="controls">
-				<input id="ssid4" name="ssid4" type="text" width="31"><br>
+				<input id="ssid4" name="ssid4" type="text"><br>
 			</div>
 		</div>
   </form>
-	<p class="text-info">Press Tag! to take your text public. 
-		This network connection will then break and you can read the text in
-		any device's wireless network list.</p>  
+	<p>ALL YOUR WIFI BELONG TO US!</p><p>Enter text -> Tag on wireless network lists.</p>  
 </div>
 <div class="modal-footer">
 <button id="tag-btn" class="btn btn-large btn-block btn-primary disabled">Tag!</button>
@@ -145,10 +146,10 @@
 </div>
 
 
-<div class="modal" id="success" tabindex="-1" style="width:200px; display:none">
+<div class="modal" id="success" tabindex="-1" style="width:200px; margin: 220px auto; display:none">
 <div class="modal-body">
-<h3 id="myModalLabel">Tagged!</h3>
-	<p class="text-info">Your text will show up in in the wireless network list of devices in the area.</p>  
+<h3 id="myModalLabel">UR TAG IS LIVE!</h3>
+	<p class="text-info">Thank you and Please come again. We are here to serve all your tagging needs. xoxo <3</p>  
 </div>
 </div>
 
