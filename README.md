@@ -5,7 +5,7 @@ Setup Process
 =============
 1. buy a TP-Link TL-WR741ND WiFi Router ($25)
 2. flash firmware
-3. setup ssh and login password (sexylama)
+3. setup ssh and login password (e.g: sexylama)
 4. run setup.sh
   - chmod +x setup.sh
   - ./setup.sh
