@@ -47,7 +47,7 @@ Troubleshooting
 - check output for errors
 
 
-Need to Know More
+Resources
 ==================
 - guide
   - http://wiki.openwrt.org/toh/tp-link/tl-wr741nd
@@ -56,8 +56,12 @@ Need to Know More
 - packages
   - http://downloads.openwrt.org/attitude_adjustment/12.09-beta2/ar71xx/generic/packages/
 
+
+Old Notes
+==========
+
 shell
-=======
+------
 - ssh root@192.168.1.1
 - remotely execute stuff
   - ssh nortd@nortd.com 'cd /www/; mkdir images;'
