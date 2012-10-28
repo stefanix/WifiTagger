@@ -14,6 +14,8 @@ Setup Process
 7. DONE! open any url (it's a captive portal) and start tagging
 
 
+In More Detail ...
+===================
 
 Flashing Firmware
 ------------------
