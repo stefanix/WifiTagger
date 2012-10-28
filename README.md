@@ -1,49 +1,49 @@
 
-
-WifiTagger is a access point mod for tagging peoples' wireless network lists. It's a custom firmware (based on OpenWRT) that sets up the access point to broadcast four SSIDs. Each one is a 31 character text string that can be edited through a web interface. When connecting to any of the SSIDs the access point sets up a captive portal to reroute any web page requests to the web interface. On it the four text string can be entered and sent to the spectrum.
+WifiTagger is a device to tag wifi networks. It can broadcast up to four lines of 32 characters. Upon selecting a tag (SSID) as your network, you can tag the wifi spectrum via the WifiTaggers web interface. Tags will be viewable within the list of wifi networks for anyone within the router's range. WifiTagger lets anyone with a wifi enabled device tag digital space.
 
 Setup Process
 =============
-- buy a TP-Link TL-WR741ND WiFi Router
-- flash firmware
-- setup ssh and login password (sexylama)
-- run setup.sh
+# buy a TP-Link TL-WR741ND WiFi Router
+# flash firmware
+# setup ssh and login password (sexylama)
+# run setup.sh
   - chmod +x setup.sh
   - ./setup.sh
-- restart access point
-- connect to "Free Public WifiTagger"
-- open any url -> web interface should open
+# restart access point
+# connect to "Free Public WifiTagger" 
+# open any url (it's a captive portal) and start tagging
 
 
 
-Flash Firmware
----------------
+Flashing Firmware
+------------------
 - plugin router to ethernet (not wan port)
 - open web interface at http://192.168.0.1/ or http://192.168.1.1/
   - user: admin
   - password: admin
 - restore factory settings if anythings was changed
-- run system upgrade uploading the firmware with the "factory" suffix
+- run "system upgrade" uploading new wifitagger (OpenWRT) firmware
   - openwrt-ar71xx-generic-tl-wr741nd-v4-squashfs-factory.bin
-- do not interrupt upload
+- after about 3 minutes continue with ssh setup
 
 Setup SSH and Login Password
 -----------------------------
-- after restart you can now telnet to router "telnet 192.168.1.1" and
+- after falshing the firmware you can "telnet 192.168.1.1" and
 - set a password with "passwd"
-- then telnet gets disabled and ssh login works with "ssh root@192.168.1.1"
-- also "ssh -o UserKnownHostsFile=/dev/null root@192.168.1.1" if you have key problems
+- this will disable telnet and enable ssh login "ssh root@192.168.1.1"
+- if you have problems with keys/hosts use this ssh option "-o UserKnownHostsFile=/dev/null"
 
 Run setup.sh
 -------------
 - this will copy a bunch of files to the router
 - amoung them setup_remote.sh
 - which it will then also execute
+- the setup.sh will require you to login a couple of time
 
 Troubleshooting
 ----------------
 - if something doesn't work ssh to router and
-- run setup_remote.sh manually
+- run commands in setup_remote.sh manually
 - check output for errors
 
 
@@ -59,7 +59,6 @@ Need to Know More
 shell
 =======
 - ssh root@192.168.1.1
-  - pass: colorado19
 - remotely execute stuff
   - ssh nortd@nortd.com 'cd /www/; mkdir images;'
 - copy stuff

@@ -3,6 +3,8 @@
 # to be executed on laptop
 # router is expected to have already the firmware flashed
 # and ssh setup
+echo "Copying files to router and executing remote_setup.sh on router."
+echo "Multiple logins required ..."
 
 # copy files
 scp -r -o UserKnownHostsFile=/dev/null packages/*.ipk root@192.168.1.1:/root/
