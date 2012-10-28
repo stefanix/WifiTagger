@@ -3,7 +3,7 @@ WifiTagger is a device to tag wifi networks. It can broadcast up to four lines o
 
 Setup Process
 =============
-1. buy a TP-Link TL-WR741ND WiFi Router
+1. buy a TP-Link TL-WR741ND WiFi Router ($25)
 2. flash firmware
 3. setup ssh and login password (sexylama)
 4. run setup.sh
