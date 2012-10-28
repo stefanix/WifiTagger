@@ -10,6 +10,7 @@ WifiTagger is a device to tag wifi networks. It can broadcast up to four lines o
 6. connect to "Free Public WifiTagger" 
 7. DONE! open any url (it's a captive portal) and start tagging
 
+<br><br>
 
 More on Flashing Firmware
 ------------------
