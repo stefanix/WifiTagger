@@ -38,7 +38,7 @@ Run setup.sh
 - this will copy a bunch of files to the router
 - amoung them setup_remote.sh
 - which it will then also execute
-- the setup.sh will require you to login a couple of time
+- the setup.sh will require you to login a couple of times
 
 Troubleshooting
 ----------------
@@ -49,12 +49,10 @@ Troubleshooting
 
 Resources
 ==================
-- guide
-  - http://wiki.openwrt.org/toh/tp-link/tl-wr741nd
-- firmware
-  - http://downloads.openwrt.org/attitude_adjustment/12.09-beta2/ar71xx/generic/
-- packages
-  - http://downloads.openwrt.org/attitude_adjustment/12.09-beta2/ar71xx/generic/packages/
+- OpenWRT: http://openwrt.org/
+- Hacking Guide: http://wiki.openwrt.org/toh/tp-link/tl-wr741nd
+- Firmware: http://downloads.openwrt.org/attitude_adjustment/12.09-beta2/ar71xx/generic/
+- Packages: http://downloads.openwrt.org/attitude_adjustment/12.09-beta2/ar71xx/generic/packages/
 
 
 Old Notes
