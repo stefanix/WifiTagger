@@ -1,5 +1,5 @@
 
-WifiTagger is a device to tag wifi networks. It can broadcast up to four lines of 32 characters. Upon selecting a tag (SSID) as your network, you can tag the wifi spectrum via the WifiTaggers web interface. Tags will be viewable within the list of wifi networks for anyone within the router's range. WifiTagger lets anyone with a wifi enabled device tag digital space.
+WifiTagger is a device to tag wifi networks. It can broadcast up to four lines of 32 characters. Upon selecting a tag (SSID) as your network, you can tag the wifi spectrum via the WifiTagger's web interface. Tags will be viewable within the list of wifi networks for anyone within the router's range. WifiTagger lets anyone with a wifi enabled device tag digital space.
 
 Setup Process
 =============
