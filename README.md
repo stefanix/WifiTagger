@@ -1,8 +1,7 @@
 
 WifiTagger is a device to tag wifi networks. It can broadcast up to four lines of 32 characters. Upon selecting a tag (SSID) as your network, you can tag the wifi spectrum via the WifiTagger's web interface. Tags will be viewable within the list of wifi networks for anyone within the router's range. WifiTagger lets anyone with a wifi enabled device tag digital space.
 
-Setup Process
-=============
+### Setup Process
 1. buy a TP-Link TL-WR741ND WiFi Router ($25)
 2. flash firmware
 3. setup ssh and login password (e.g: sexylama)
@@ -11,9 +10,6 @@ Setup Process
 6. connect to "Free Public WifiTagger" 
 7. DONE! open any url (it's a captive portal) and start tagging
 
-
-In More Detail ...
-===================
 
 Flashing Firmware
 ------------------
