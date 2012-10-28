@@ -13,7 +13,7 @@ WifiTagger is a device to tag wifi networks. It can broadcast up to four lines o
 <br><br>
 
 More on Flashing Firmware
-------------------
+-------------------------
 - plugin router to ethernet (not wan port)
 - open web interface at http://192.168.0.1/ or http://192.168.1.1/
   - user: admin
@@ -23,15 +23,15 @@ More on Flashing Firmware
   - openwrt-ar71xx-generic-tl-wr741nd-v4-squashfs-factory.bin
 - after about 3 minutes continue with ssh setup
 
-More on Setup SSH and Login Password
------------------------------
+More on Seting up SSH
+---------------------
 - after falshing the firmware you can "telnet 192.168.1.1" and
 - set a password with "passwd"
 - this will disable telnet and enable ssh login "ssh root@192.168.1.1"
 - if you have problems with keys/hosts use this ssh option "-o UserKnownHostsFile=/dev/null"
 
 More on Running setup.sh
--------------
+------------------------
 - this will copy a bunch of files to the router
 - amoung them setup_remote.sh
 - which it will then also execute
