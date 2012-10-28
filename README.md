@@ -11,7 +11,7 @@ Setup Process
   - ./setup.sh
 5. restart access point
 6. connect to "Free Public WifiTagger" 
-7. open any url (it's a captive portal) and start tagging
+7. DONE! open any url (it's a captive portal) and start tagging
 
 
 
