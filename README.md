@@ -48,7 +48,7 @@ Troubleshooting
 
 
 Resources
-==================
+-----------
 - OpenWRT: http://openwrt.org/
 - Hacking Guide: http://wiki.openwrt.org/toh/tp-link/tl-wr741nd
 - Firmware: http://downloads.openwrt.org/attitude_adjustment/12.09-beta2/ar71xx/generic/
