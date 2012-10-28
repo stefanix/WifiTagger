@@ -6,9 +6,7 @@ Setup Process
 1. buy a TP-Link TL-WR741ND WiFi Router ($25)
 2. flash firmware
 3. setup ssh and login password (e.g: sexylama)
-4. run setup.sh
-  - chmod +x setup.sh
-  - ./setup.sh
+4. run setup.sh (chmod +x setup.sh; ./setup.sh)
 5. restart access point
 6. connect to "Free Public WifiTagger" 
 7. DONE! open any url (it's a captive portal) and start tagging
